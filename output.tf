@@ -14,7 +14,3 @@ output "public_ip" {
 output "private_ip" {
   value = aws_instance.project.private_ip
 }
-
-output "availability_zone" {
-  value = aws_instance.project.availability_zone
-}

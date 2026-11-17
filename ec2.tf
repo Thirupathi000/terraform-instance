@@ -1,24 +1,24 @@
 
-variable "aws_region" {
-  default = "us-east-1"
+provider "aws" {
+  region = var.aws_region
 }
 
-variable "ami_id" {
-  default = "ami-0055977a6e828a4f4"
+# Automatically select default subnet
+data "aws_subnets" "default" {
+  filter {
+    name   = "default-for-az"
+    values = ["true"]
+  }
 }
 
-variable "instance_type" {
-  default = "t2.micro"
-}
+resource "aws_instance" "project" {
+  ami                    = var.ami_id
+  instance_type          = var.instance_type
+  subnet_id              = data.aws_subnets.default.ids[0]
+  vpc_security_group_ids = [var.security_group_id]
 
-variable "instance_name" {
-  default = "Redhat-9-DevOps-Practice"
-}
-
-variable "project_name" {
-  default = "DevOps-Practice"
-}
-
-variable "security_group_id" {
-  default = "sg-071ddf420adfadca0"
+  tags = {
+    Name    = var.instance_name
+    Project = var.project_name
+  }
 }

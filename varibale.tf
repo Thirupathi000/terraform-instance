@@ -19,10 +19,6 @@ variable "project_name" {
   default = "DevOps-Practice"
 }
 
-variable "vpc_id" {
-  default = "vpc-0a69064a27152e40"
-}
-
 variable "security_group_id" {
   default = "sg-071ddf420adfadca0"
 }
