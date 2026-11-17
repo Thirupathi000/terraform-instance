@@ -1,34 +1,24 @@
 
-provider "aws" {
-  region = var.aws_region
+variable "aws_region" {
+  default = "us-east-1"
 }
 
-# Automatically fetch available subnets
-data "aws_subnets" "project" {
-  filter {
-    name   = "vpc-id"
-    values = [var.vpc_id]
-  }
+variable "ami_id" {
+  default = "ami-0055977a6e828a4f4"
 }
 
-# Create EC2 instance
-resource "aws_instance" "project" {
-  ami                    = var.ami_id
-  instance_type          = var.instance_type
+variable "instance_type" {
+  default = "t2.micro"
+}
 
-  subnet_id              = data.aws_subnets.project.ids[0]
+variable "instance_name" {
+  default = "Redhat-9-DevOps-Practice"
+}
 
-  vpc_security_group_ids = [var.security_group_id]
+variable "project_name" {
+  default = "DevOps-Practice"
+}
 
-  tags = {
-    Name    = var.instance_name
-    Project = var.project_name
-  }
-
-  lifecycle {
-    precondition {
-      condition     = length(data.aws_subnets.project.ids) > 0
-      error_message = "No subnet found in the configured VPC. Check the VPC ID and AWS region."
-    }
-  }
+variable "security_group_id" {
+  default = "sg-071ddf420adfadca0"
 }
